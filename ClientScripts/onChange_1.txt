@@ -1,0 +1,20 @@
+function onChange(control, oldValue, newValue, isLoading, isTemplate) {
+   if (newValue == '') {
+		g_form.clearValue('u_request');
+		g_form.clearValue('u_requested_for');
+		return;
+	}
+
+	var ga = new GlideAjax('ShippingCaseUtils');
+	ga.addParam('sysparm_name', 'getReqItemDetails');
+	ga.addParam('sysparm_req', g_form.getValue('u_requested_item'));
+	ga.getXMLAnswer(callback);
+
+	
+	function callback (res) {
+		var reqItemDetails = JSON.parse(res);
+		g_form.setValue('u_request', reqItemDetails.req);
+		g_form.setValue('u_requested_for', reqItemDetails.reqFor);
+	}
+   
+}

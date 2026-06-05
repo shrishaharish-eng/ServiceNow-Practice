@@ -1,0 +1,68 @@
+var ShippingCaseUtils = Class.create();
+ShippingCaseUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
+
+	getShippingCaseCallerDetails: function() {
+		var gr = new GlideRecord("sys_user");
+		gr.addQuery("sys_id", this.getParameter('sysparm_caller'));
+		gr.query();
+
+		var callStr = '';
+		if (gr.next()) {
+			callStr = gr.getValue('email')+':'+gr.getValue('location')+':'+gr.getValue('department');
+		}
+
+		return callStr;
+	},
+
+	getIncDetails: function() {
+
+		var gr = new GlideRecord("incident");
+		gr.addQuery("sys_id", this.getParameter('sysparm_inc'));
+		gr.query();
+
+		var incDetails = {};
+		if(gr.next()) {
+			incDetails.sd = gr.getValue('short_description');
+			incDetails.desc = gr.getValue('description');
+		}
+
+		return JSON.stringify(incDetails);
+
+	},
+
+	getReqItemDetails: function() {
+
+		var gr1 = new GlideRecord("sc_req_item");
+		gr1.addQuery("sys_id", this.getParameter('sysparm_req'));
+		gr1.query();
+
+		var reqItemDetails = {};
+
+		if (gr1.next()) {
+			var req = gr1.getValue('request');
+			var user = gr1.getValue('requested_for');
+
+			var gr2 = new GlideRecord("sys_user");
+			gr2.addQuery("sys_id", user);
+			gr2.query();
+
+			if (gr2.next()) {
+				reqItemDetails.reqFor = gr2.getValue('first_name') + ' ' + gr2.getValue('last_name');
+			}
+
+			var gr3 = new GlideRecord("sc_request");
+			gr3.addQuery("sys_id", req);
+			gr3.query();
+
+			if (gr3.next()) {
+				reqItemDetails.req = gr3.getValue('number');
+			}
+		}
+
+		return JSON.stringify(reqItemDetails);
+
+
+	},
+
+    type: 'ShippingCaseUtils'
+});
