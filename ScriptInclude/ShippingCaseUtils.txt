@@ -60,7 +60,23 @@ ShippingCaseUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
 		}
 
 		return JSON.stringify(reqItemDetails);
+		
 
+	},
+
+	getCallerDetais1: function() {
+
+		var gr = new GlideRecord("sys_user");
+		gr.addQuery("sys_id", this.getParameter('sysparm_caller'));
+		gr.query();
+
+		var callerObj = {};
+		if (gr.next()) {
+			callerObj.isVIP = gr.getValue('vip');
+			callerObj.isContractor = gr.getValue('u_contractor');
+		}
+
+		return JSON.stringify(callerObj);
 
 	},
 
