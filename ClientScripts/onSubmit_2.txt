@@ -1,0 +1,25 @@
+function onSubmit() {
+   
+   var ga = new GlideAjax('ShippingCaseUtils');
+   ga.addParam('sysparm_name', 'getCallerDetais1');
+   ga.addParam('sysparm_caller', g_form.getValue('u_caller'));
+
+   ga.getXMLWait();
+
+   var res = ga.getAnswer();
+
+   var res2 = JSON.parse(res);
+
+   var vip = res2.isVIP;
+   var contractor = res2.isContractor;
+
+//    alert(vip);
+//    alert(contractor);
+   
+   if (vip == '0' || contractor == '0') {
+	g_form.hideFieldMsg('u_caller', true);
+	g_form.showFieldMsg('u_caller','Selected caller is either not VIP or not a contractor, hence this form cannot be submitted','error');
+	return false;
+   }
+   
+}

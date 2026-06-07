@@ -1,0 +1,31 @@
+function onSubmit() {
+   
+   var category = g_form.getValue('u_category');
+   var subcategory = g_form.getValue('u_subcategory');
+   var state = g_form.getValue('u_state');
+
+   if (state == 'In Progress') {
+
+	if (category == '' || subcategory == '') {
+	
+	g_form.hideFieldMsg('u_category', true);
+	g_form.hideFieldMsg('u_subcategory', true);
+
+	if (category == '' && subcategory != '') {
+		g_form.showFieldMsg('u_category', 'Category is mandatory', 'error');
+	} else if (category != '' && subcategory == '') {
+		g_form.showFieldMsg('u_subcategory', 'Subcategory is mandatory', 'error');
+	} else if (category == '' && subcategory == '') {
+		g_form.showFieldMsg('u_category', 'Category is mandatory', 'error');
+		g_form.showFieldMsg('u_subcategory', 'Subcategory is mandatory', 'error');
+	}
+
+	return false;
+
+   }
+
+   }
+
+   
+   
+}
