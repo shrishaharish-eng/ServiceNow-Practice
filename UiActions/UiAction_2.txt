@@ -1,0 +1,30 @@
+Condition:
+current.u_problems_list.split(',').length < 2 || current.u_problems_list == ''
+
+
+var gr = new GlideRecord('problem');
+
+gr.initialize();
+
+gr.setValue('cmdb_ci', current.getValue('u_configuration_item'));
+gr.setValue('short_description', current.getValue('u_short_description'));
+gr.setValue('description', current.getValue('u_description'));
+gr.setValue('assignment_group', current.getValue('u_assignment_group'));
+
+gr.insert();
+
+var problemSysId = gr.getValue('sys_id');
+
+var problemList = current.u_problems_list;
+
+if (problemList == '') {
+	current.setValue('u_problems_list', problemSysId);
+} else {
+	current.setValue('u_problems_list', problemList + ',' + problemSysId);
+}
+
+current.update();
+
+gs.addInfoMessage(gr.number + ' has been created!');
+action.setRedirectURL(current);
+
