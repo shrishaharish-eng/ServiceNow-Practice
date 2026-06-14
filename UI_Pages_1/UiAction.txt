@@ -1,0 +1,18 @@
+Onclick: checkAssignedToValue()
+
+function checkAssignedToValue() {
+	var assignedTo = g_form.getValue('u_assigned_to');
+	if (assignedTo == '') {
+		var gdw = new GlideModal('select_assigned_to_page');
+		gdw.setTitle('Please select Assigned To');
+		gdw.render();
+	} else {
+		gsftSubmit(null, g_form.getFormElement(), 'sc_in_progress');
+	}
+}
+
+if (typeof window == 'undefined') {
+		current.setValue('u_state', 'In Progress');
+		current.update();
+		action.setRedirectURL(current);
+}

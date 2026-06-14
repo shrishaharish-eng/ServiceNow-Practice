@@ -1,0 +1,14 @@
+populateAssignedTo: function() {
+		var gr = new GlideRecord("u_shipping_case");
+		gr.addQuery("sys_id", this.getParameter('sysparm_scid'));
+		gr.query();
+		var isUpdated = false;
+		if (gr.next()) {
+			gr.u_assigned_to = this.getParameter('sysparm_scassto');
+			gr.u_state = 'In Progress';
+			gr.update();
+			isUpdated = true;
+		}
+
+		return isUpdated;
+	},
