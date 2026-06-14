@@ -1,0 +1,19 @@
+Onclick: checkOnHoldReason()
+
+function checkOnHoldReason() {
+	var onHoldReason = g_form.getValue('u_on_hold_reason');
+
+	if (onHoldReason == '') {
+		g_form.hideFieldMsg('u_on_hold_reason', true);
+		g_form.showFieldMsg('u_on_hold_reason', 'On Hold Reason is mandatory for changing the state to On Hold', 'error');
+		return false;
+	} else {
+		gsftSubmit(null, g_form.getFormElement(), 'sc_pending');
+	}
+}
+
+if (typeof window == 'undefined') {
+	current.setValue('u_state', 'On Hold');
+	current.update();
+	action.setRedirectURL(current);
+}
