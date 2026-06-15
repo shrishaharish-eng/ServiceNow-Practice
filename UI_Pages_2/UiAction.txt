@@ -1,0 +1,20 @@
+Onclick: checkResolutionInfo()
+
+function checkResolutionInfo() {
+	var rcode = g_form.getValue('u_resolution_code');
+	var rnotes = g_form.getValue('u_resolution_notes');
+	if (rcode == '' || rnotes == '') {
+		var gdw = new GlideModal('sc_resolution_info_page');
+		gdw.setTitle('Please update Resolution Information');
+		gdw.render();
+		return false;
+	} else {
+		gsftSubmit(null, g_form.getFormElement(), 'sc_resolved');
+	}
+}
+
+if (typeof window == 'undefined') {
+		current.setValue('u_state', 'Resolved');
+		current.update();
+		action.setRedirectURL(current);
+}

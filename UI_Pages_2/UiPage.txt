@@ -1,0 +1,58 @@
+HTML:
+-----------------
+<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+<label>Resolution Code</label>
+<br />
+<select id='rcode'>
+<option value='Solution Provided'>Solution Provided</option>
+<option value='Solved By Problem'>Solved By Problem</option>
+<option value='Known Error'>Known Error</option>
+<option value='Solved By Caller'>Solved By Caller</option>
+<option value='Solved By Change Request'>Solved By Change Request</option>
+</select>
+<br />
+<label>Resolution Notes</label>
+<br />
+<textarea id='rnotes'></textarea>
+<br />
+<g:dialog_buttons_ok_cancel ok="return validateForm();" cancel="return onCancel();" id="my_dialog_buttons" />
+
+</j:jelly>
+
+Client Script:
+----------------
+function validateForm() {
+	var resolutionCode = gel('rcode').value;
+	var resolutionNotes = gel('rnotes').value;
+
+	if (resolutionCode.trim() == '') {
+		alert('Resolution Code is mandatory');
+		return false;
+	}
+
+	if (resolutionNotes.trim() == '') {
+		alert('Resolution Notes is mandatory');
+		return false;
+	}
+
+	var ga = new GlideAjax('ShippingCaseUtils');
+		ga.addParam('sysparm_name', 'resolveShippingCase');
+		ga.addParam('sysparm_scid', g_form.getUniqueValue());
+		ga.addParam('sysparm_rcode', resolutionCode);
+		ga.addParam('sysparm_rnotes', resolutionNotes);
+		ga.getXMLAnswer(callback);
+
+		function callback(res) {
+			if (res == 'true') {
+				alert('Case has been resolved successfully');
+				parent.window.location.reload();
+				GlideDialogWindow.get().destroy();
+			}
+		}
+
+}
+
+function onCancel() {
+	GlideDialogWindow.get().destroy();
+}
