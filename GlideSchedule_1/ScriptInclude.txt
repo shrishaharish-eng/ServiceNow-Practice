@@ -1,0 +1,15 @@
+validateBusinessDay: function() {
+		var scheduleId = gs.getProperty('business.day.schedule');
+		var sch = new GlideSchedule(scheduleId);
+		var date = new GlideDateTime(this.getParameter('sysparm_date'));
+		// date.setTZ(gs.getUser().getTimeZone()); // force user’s timezone
+		
+		var isBusinessDay;
+		if (sch.isInSchedule(date)) {
+			isBusinessDay = true;
+		} else {
+			isBusinessDay = false;
+		}
+
+		return isBusinessDay;
+	},

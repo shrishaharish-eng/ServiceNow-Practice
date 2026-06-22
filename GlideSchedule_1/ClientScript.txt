@@ -1,0 +1,19 @@
+function onChange(control, oldValue, newValue, isLoading, isTemplate) {
+   if (isLoading || newValue === '') {
+      return;
+   }
+
+   var ga = new GlideAjax('ShippingCaseUtils');
+   ga.addParam('sysparm_name', 'validateBusinessDay');
+   ga.addParam('sysparm_date', g_form.getValue('u_business_day'));
+   ga.getXMLAnswer(callback);
+
+   function callback(res) {
+	alert(res);
+	if (res == 'false') {
+		g_form.clearValue('u_business_day');
+		g_form.showFieldMsg('u_business_day', 'Selected date is not a business day', 'error');
+	}
+   }
+   
+}
