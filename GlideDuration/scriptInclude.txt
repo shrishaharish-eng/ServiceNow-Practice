@@ -1,0 +1,9 @@
+populateDeliveryDate: function() {
+		var scheduleId = gs.getProperty('business.day.schedule');
+		var sch = new GlideSchedule(scheduleId);
+		var date = new GlideDateTime(this.getParameter('sysparm_date'));
+		var dur = new GlideDuration(20*24*60*60*1000);
+		var finalDate = sch.add(date, dur);
+
+		return finalDate;
+	},

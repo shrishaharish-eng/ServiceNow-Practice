@@ -1,0 +1,15 @@
+function onChange(control, oldValue, newValue, isLoading, isTemplate) {
+   if (isLoading || newValue === '') {
+      return;
+   }
+
+	var ga = new GlideAjax('ShippingCaseUtils');
+	ga.addParam('sysparm_name', 'populateDeliveryDate');
+	ga.addParam('sysparm_date', g_form.getValue('u_ordered_date'));
+	ga.getXMLAnswer(callback);
+
+	function callback (res) {
+		g_form.setValue('u_delivery_date', res);
+	}
+   
+}
