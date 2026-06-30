@@ -1,0 +1,13 @@
+validateDOB: function() {
+		var date = new GlideDateTime(this.getParameter('sysparm_date'));
+		var today = new GlideDateTime();
+
+		var isValid;
+		if (date.before(today)) {
+			isValid = 'yes';
+		} else {
+			isValid = 'no';
+		}
+
+		return isValid;
+	},
